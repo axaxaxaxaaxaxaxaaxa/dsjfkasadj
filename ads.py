@@ -10,10 +10,8 @@ class VeryComplicatedInterface:
     def __init__(self, window):
         self.window = window
         self.window.setGeometry(0, 0, 800, 600)
-        self.window.setWindowTitle("Вставить текст")
         self.button = QPushButton(window)
         self.button.setGeometry(270, 540, 271, 51)
-        self.button.setText("Жми яростнее")
 
 
 class Example(QWidget):
