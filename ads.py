@@ -1,35 +1,51 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+
 from PyQt5.QtGui import QPainter, QColor
-from ui_file import Ui_MainWindow
-import random
+from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
+from PyQt5 import uic
+from random import randint
 
 
-class MyWidget(QMainWindow, Ui_MainWindow):
+class VeryComplicatedInterface:
+    def __init__(self, window):
+        self.window = window
+        self.window.setGeometry(0, 0, 800, 600)
+        self.window.setWindowTitle("Вставить текст")
+        self.button = QPushButton(window)
+        self.button.setGeometry(270, 540, 271, 51)
+        self.button.setText("Жми яростнее")
+
+
+class Example(QWidget):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
-        self.do_paint = False
-        self.pushButton.clicked.connect(self.paint)
+        self.initUI()
+
+    def initUI(self):
+        self.interface = VeryComplicatedInterface(self)
+        self.draw = False
+        self.interface.button.clicked.connect(self.activate)
+
+    def activate(self):
+        self.draw = True
+        self.update()
 
     def paintEvent(self, event):
-        if self.do_paint:
+        if self.draw:
             qp = QPainter()
             qp.begin(self)
             self.draw_flag(qp)
             qp.end()
 
-    def paint(self):
-        self.do_paint = True
-        self.repaint()
-
     def draw_flag(self, qp):
-        qp.setBrush(QColor(255, 255, 0))
-        qp.drawEllipse(random.randint(0, 500), random.randint(0, 500), random.randint(0, 500), random.randint(0, 500))
+        self.draw = True
+        qp.setBrush(QColor(randint(0, 255), randint(0, 255), randint(0, 255)))
+        size = randint(20, 200)
+        qp.drawEllipse(randint(0, 600), randint(0, 400), size, size)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = MyWidget()
+    ex = Example()
     ex.show()
     sys.exit(app.exec())
